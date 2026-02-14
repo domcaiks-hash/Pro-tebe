@@ -5,73 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pro Denisko ❤️</title>
 <style>
-body, html {
-  margin:0; padding:0; height:100%; overflow:hidden;
-  font-family:'Segoe UI', sans-serif;
+html, body {
+  margin:0; padding:0; height:100%;
   display:flex; justify-content:center; align-items:center;
+  font-family:'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #ff4e8a, #ff8ecf);
   color:white; text-align:center;
+  overflow:hidden;
 }
 .container {
-  max-width:350px; padding:20px; position:relative;
+  max-width:400px; padding:20px; position:relative;
 }
-h1 { font-size:1.9em; margin-bottom:10px; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s forwards;}
-p { font-size:1em; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s forwards; animation-delay:1s;}
-.buttons { margin-top:25px; opacity:0; animation:fadeIn 1s forwards; animation-delay:2s; }
-button { width:100%; padding:14px; margin:8px 0; border-radius:30px; border:none; font-size:1.1em; cursor:pointer; transition:0.3s;}
-#yes { background:white; color:#ff4e8a;}
-#yes:active { transform:scale(0.95);}
-#no { background:rgba(0,0,0,0.3); color:white;}
-#no:hover { opacity:0.7;}
-@keyframes fadeUp { to {opacity:1; transform:translateY(0);} }
-@keyframes fadeIn { to {opacity:1;} }
-.heart { position:absolute; top:-10px; font-size:20px; animation:fall linear infinite; }
-@keyframes fall { to { transform:translateY(110vh) rotate(360deg); } }
-#message { margin-top:30px; font-size:1.4em; }
+h1 { font-size:2em; margin-bottom:10px; transition:0.5s; }
+p { font-size:1em; margin-bottom:20px; transition:0.5s; }
+a.button {
+  display:inline-block;
+  padding:12px 25px;
+  margin:10px;
+  border-radius:30px;
+  background:white;
+  color:#ff4e8a;
+  font-weight:bold;
+  font-size:1em;
+  text-decoration:none;
+  transition:0.3s;
+  position:relative;
+}
+a.button:hover { transform:scale(1.05); }
+
+/* Padání srdíček */
+.heart {
+  position:absolute; top:-50px;
+  animation:fall linear infinite;
+  font-size:20px;
+}
+@keyframes fall {
+  0% { transform:translateY(0) rotate(0deg); }
+  100% { transform:translateY(110vh) rotate(360deg); }
+}
+
+/* Skrytí všech sekcí kromě úvodní defaultně */
+#yes1, #no1, #yes2, #no2 { display:none; }
+
+/* Zobrazení cílové sekce podle fragmentu */
+#yes1:target, #no1:target, #yes2:target, #no2:target {
+  display:block;
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Denisko, budeš můj Valentýn? 💘</h1>
-  <p>Klikni na ANO a uvidíš překvapení 😌</p>
-  <div class="buttons">
-    <button id="yes">ANO ❤️</button>
-    <button id="no">NE 😏</button>
+  <!-- Úvodní otázka -->
+  <div id="start">
+    <h1>Denisko, budeš můj Valentýn? 💘</h1>
+    <a href="#yes1" class="button">ANO ❤️</a>
+    <a href="#no1" class="button">NE 😏</a>
   </div>
-  <div id="message"></div>
+
+  <!-- Po kliknutí ANO -->
+  <div id="yes1">
+    <h1>Teď jsi oficiálně můj Valentýn! ❤️</h1>
+    <div class="heart" style="left:5vw; animation-duration:5s;">❤️</div>
+    <div class="heart" style="left:20vw; animation-duration:6s;">❤️</div>
+    <div class="heart" style="left:40vw; animation-duration:4s;">❤️</div>
+    <div class="heart" style="left:60vw; animation-duration:5s;">❤️</div>
+    <div class="heart" style="left:80vw; animation-duration:6s;">❤️</div>
+  </div>
+
+  <!-- Po kliknutí na NE -->
+  <div id="no1">
+    <h1>Opravdu? 😮</h1>
+    <a href="#yes2" class="button">ANO ❤️</a>
+    <a href="#no2" class="button">FAKT NE 😢</a>
+  </div>
+
+  <!-- Po kliknutí na druhé ANO -->
+  <div id="yes2">
+    <h1>Teď jsi oficiálně můj Valentýn! ❤️</h1>
+    <div class="heart" style="left:10vw; animation-duration:5s;">❤️</div>
+    <div class="heart" style="left:30vw; animation-duration:6s;">❤️</div>
+    <div class="heart" style="left:50vw; animation-duration:4s;">❤️</div>
+    <div class="heart" style="left:70vw; animation-duration:5s;">❤️</div>
+    <div class="heart" style="left:90vw; animation-duration:6s;">❤️</div>
+  </div>
+
+  <!-- Po kliknutí na FAKT NE -->
+  <div id="no2">
+    <h1>😢😢😢😢😢😢😢😢😢😢</h1>
+    <p>Tak smutně končí naše hra 😔</p>
+  </div>
 </div>
 
-<script>
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
-const message = document.getElementById("message");
-
-// Srdíčka
-function createHeart(){
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerText="❤️";
-  heart.style.left = Math.random()*100+"vw";
-  heart.style.animationDuration = (Math.random()*3+2)+"s";
-  heart.style.fontSize = (Math.random()*25+15)+"px";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),5000);
-}
-setInterval(createHeart,300);
-
-// ANO klik
-yesBtn.addEventListener("click",()=>{
-  document.body.innerHTML=`
-    <div style="text-align:center;padding:30px;">
-      <h1 style="font-size:2em;">YES! ❤️</h1>
-      <p style="font-size:1.2em;">Oficiálně jsi můj Valentýn, Denisko 😍</p>
-      <p style="opacity:0.8;">Těším se na náš den ✨</p>
-    </div>
-  `;
-});
-
-// NE tlačítko, které utíká
-noBtn.addEventListener("mouseover",()=>{
-  let moveX = Mat
-    
+</body>
+</html>
