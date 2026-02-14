@@ -4,29 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pro tebe ❤️</title>
-
 <style>
-body {
+/* Reset a základ */
+body, html {
     margin: 0;
-    height: 100vh;
-    background: linear-gradient(160deg, #1e1e2f, #3a0ca3);
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff4e8a, #ff8ecf);
     color: white;
     text-align: center;
-    overflow: hidden;
 }
 
+/* Hlavní box */
 .container {
-    padding: 30px;
     max-width: 350px;
+    padding: 20px;
+    position: relative;
 }
 
+/* Nadpis a podnadpis */
 h1 {
     font-size: 1.8em;
-    font-weight: 600;
+    margin-bottom: 10px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeUp 1.5s forwards;
@@ -40,8 +44,9 @@ p {
     animation-delay: 1s;
 }
 
+/* Tlačítka */
 .buttons {
-    margin-top: 30px;
+    margin-top: 25px;
     opacity: 0;
     animation: fadeIn 1s forwards;
     animation-delay: 2s;
@@ -53,83 +58,111 @@ button {
     margin: 8px 0;
     border-radius: 30px;
     border: none;
-    font-size: 1em;
+    font-size: 1.1em;
     cursor: pointer;
     transition: 0.3s;
 }
 
+/* ANO tlačítko */
 #yes {
-    background: #ff4d8d;
-    color: white;
+    background: white;
+    color: #ff4e8a;
 }
-
 #yes:active {
     transform: scale(0.95);
 }
 
+/* NE tlačítko */
 #no {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.4);
-    color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.3);
+    color: white;
+}
+#no:hover {
+    opacity: 0.7;
 }
 
+/* Animace textu */
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* Padající srdíčka */
+.heart {
+    position: absolute;
+    top: -10px;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Finální zpráva */
 #message {
     margin-top: 30px;
     font-size: 1.4em;
 }
-
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
 </style>
 </head>
-
 <body>
 
 <div class="container">
-    <h1 id="question">Mám pro tebe jednu otázku…</h1>
-    <p id="sub">Ale odpověď může změnit náš 14. únor 💘</p>
+    <h1>Mám pro tebe jednu otázku…</h1>
+    <p>Odpověď může změnit náš 14. únor 💘</p>
 
     <div class="buttons">
-        <button id="yes">Ano, chci ❤️</button>
-        <button id="no">Hmm… nevím</button>
+        <button id="yes">ANO ❤️</button>
+        <button id="no">NE 😏</button>
     </div>
 
     <div id="message"></div>
 </div>
 
 <script>
-const question = document.getElementById("question");
-const sub = document.getElementById("sub");
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const message = document.getElementById("message");
 
-setTimeout(() => {
-    question.innerText = "Budeš můj Valentýn?";
-}, 3000);
-
+// ANO klik
 yesBtn.addEventListener("click", () => {
     document.body.innerHTML = `
-        <div style="text-align:center;">
-            <h1 style="font-size:2em;">Tak jo ❤️</h1>
-            <p style="font-size:1.2em;">Oficiálně jsi můj Valentýn.</p>
-            <p style="opacity:0.7;">Těším se na náš den ✨</p>
+        <div style="text-align:center; padding:30px;">
+            <h1 style="font-size:2em;">Tak jo! ❤️</h1>
+            <p style="font-size:1.2em;">Oficiálně jsi můj Valentýn 😌</p>
+            <p style="opacity:0.8;">Těším se na náš den ✨</p>
         </div>
     `;
 });
 
-noBtn.addEventListener("click", () => {
-    noBtn.innerText = "Opravdu? 😏";
-    noBtn.style.opacity = "0.4";
+// NE tlačítko, které utíká
+let moveX = 0;
+let moveY = 0;
+noBtn.addEventListener("mouseover", () => {
+    moveX = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    moveY = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = moveX + "px";
+    noBtn.style.top = moveY + "px";
 });
+
+// Animace padajících srdíček
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    heart.style.fontSize = (Math.random() * 25 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}
+
+setInterval(createHeart, 300);
 </script>
 
 </body>
