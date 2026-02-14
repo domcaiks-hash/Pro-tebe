@@ -6,63 +6,72 @@
 <title>Pro Denisko ❤️</title>
 <style>
 body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ff4e8a, #ff8ecf);
-    color: white;
-    text-align: center;
+  margin:0; padding:0; height:100%; overflow:hidden;
+  font-family:'Segoe UI', sans-serif;
+  display:flex; justify-content:center; align-items:center;
+  background: linear-gradient(135deg, #ff4e8a, #ff8ecf);
+  color:white; text-align:center;
 }
 .container {
-    max-width: 350px;
-    padding: 20px;
-    position: relative;
+  max-width:350px; padding:20px; position:relative;
 }
-h1 {
-    font-size: 1.9em;
-    margin-bottom: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 1.5s forwards;
+h1 { font-size:1.9em; margin-bottom:10px; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s forwards;}
+p { font-size:1em; opacity:0; transform:translateY(20px); animation:fadeUp 1.5s forwards; animation-delay:1s;}
+.buttons { margin-top:25px; opacity:0; animation:fadeIn 1s forwards; animation-delay:2s; }
+button { width:100%; padding:14px; margin:8px 0; border-radius:30px; border:none; font-size:1.1em; cursor:pointer; transition:0.3s;}
+#yes { background:white; color:#ff4e8a;}
+#yes:active { transform:scale(0.95);}
+#no { background:rgba(0,0,0,0.3); color:white;}
+#no:hover { opacity:0.7;}
+@keyframes fadeUp { to {opacity:1; transform:translateY(0);} }
+@keyframes fadeIn { to {opacity:1;} }
+.heart { position:absolute; top:-10px; font-size:20px; animation:fall linear infinite; }
+@keyframes fall { to { transform:translateY(110vh) rotate(360deg); } }
+#message { margin-top:30px; font-size:1.4em; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Denisko, budeš můj Valentýn? 💘</h1>
+  <p>Klikni na ANO a uvidíš překvapení 😌</p>
+  <div class="buttons">
+    <button id="yes">ANO ❤️</button>
+    <button id="no">NE 😏</button>
+  </div>
+  <div id="message"></div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+
+// Srdíčka
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerText="❤️";
+  heart.style.left = Math.random()*100+"vw";
+  heart.style.animationDuration = (Math.random()*3+2)+"s";
+  heart.style.fontSize = (Math.random()*25+15)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
 }
-p {
-    font-size: 1em;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 1.5s forwards;
-    animation-delay: 1s;
-}
-.buttons {
-    margin-top: 25px;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-    animation-delay: 2s;
-}
-button {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 30px;
-    border: none;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: 0.3s;
-}
-#yes { background: white; color: #ff4e8a; }
-#yes:active { transform: scale(0.95); }
-#no { background: rgba(0,0,0,0.3); color: white; }
-#no:hover { opacity: 0.7; }
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { to { opacity: 1; } }
-.heart {
-    position: absolute;
-    top: -10px;
-    font-size: 20px;
-    animation: fall linear infinite;
-}
-@keyf
+setInterval(createHeart,300);
+
+// ANO klik
+yesBtn.addEventListener("click",()=>{
+  document.body.innerHTML=`
+    <div style="text-align:center;padding:30px;">
+      <h1 style="font-size:2em;">YES! ❤️</h1>
+      <p style="font-size:1.2em;">Oficiálně jsi můj Valentýn, Denisko 😍</p>
+      <p style="opacity:0.8;">Těším se na náš den ✨</p>
+    </div>
+  `;
+});
+
+// NE tlačítko, které utíká
+noBtn.addEventListener("mouseover",()=>{
+  let moveX = Mat
+    
